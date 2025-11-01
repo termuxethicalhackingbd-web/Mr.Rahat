@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Galaxy Jackpot — ∞× Legendary++</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#0a0b0f; --bg2:#0f1724; --neon1:#ffd54a; --neon2:#ff6a00; --accent:#7c4dff;
+  --muted:#9aa4b2; --card:#0e1624; --success:#2ecc71; --danger:#ff6b6b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:#e6eef6}
+.container{max-width:980px;margin:24px auto;padding:18px;position:relative}
+.header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.brand{width:74px;height:74px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--neon1),var(--neon2));color:#051018;font-weight:900;font-size:22px;box-shadow:0 10px 40px rgba(124,77,255,0.08)}
+.title{font-size:20px;font-weight:800}
+.subtitle{color:var(--muted);font-size:13px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.12));padding:16px;border-radius:14px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 32px rgba(0,0,0,0.5)}
+.hrow{display:flex;justify-content:space-between;align-items:center}
+.balanceBig{font-size:30px;font-weight:900}
+.smallMuted{color:var(--muted);font-size:13px}
+.btnRow{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.btn{background:linear-gradient(135deg,var(--neon1),var(--neon2));color:#051018;border:none;padding:12px 14px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(255,106,0,0.12)}
+.btn.game{background:linear-gradient(135deg,#6ee7b7,#34d399);color:#052014}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--neon1)}
+.refBox{background:#071225;padding:10px;border-radius:10px;border:1px dashed rgba(124,77,255,0.12);cursor:pointer;overflow:hidden}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;max-height:320px;overflow:auto;padding-right:6px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card-mini{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;cursor:pointer;text-align:center}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;min-width:220px;padding:12px;border-radius:10px;display:none;font-weight:800;z-index:9999}
+.toast.info{background:linear-gradient(120deg,#dbeafe,#bfdbfe);color:#022558}
+.toast.success{background:linear-gradient(120deg,#d1fae5,#bbf7d0);color:#064e3b}
+.toast.error{background:linear-gradient(120deg,#fee2e2,#fecaca);color:#7f1d1d}
+.stickyBtns{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:9998}
+.stickyBtns button{padding:10px 12px;border-radius:12px;border:none;cursor:pointer}
+.progressBar{height:8px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden;margin-top:8px}
+.progressFill{height:100%;background:linear-gradient(90deg,#ffd54a,#ff6a00);width:0%}
+.rewardBadge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted);font-weight:700}
+.leaderboard{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.levelTag{display:inline-block;padding:6px 8px;border-radius:8px;background:linear-gradient(135deg,#7c4dff,#34d399);color:#051018;font-weight:800}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#071225;padding:18px;border-radius:12px;z-index:10000;min-width:320px;display:none;color:#e6eef6;text-align:center}
+.modal.show{display:block}
+.input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:#e6eef6;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="brand">GJ</div>
+    <div>
+      <div class="title">Galaxy Jackpot — ∞× Legendary++</div>
+      <div class="smallMuted subtitle">Play • Watch Ads • Earn USDT</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="hrow">
+      <div>
+        <div class="smallMuted">Current Balance</div>
+        <div class="balanceBig" id="balance">USDT 0.000</div>
+        <div class="smallMuted" id="avail">Available: USDT 0.000</div>
+        <div class="progressBar"><div id="xpFill" class="progressFill" style="width:0%"></div></div>
+        <div style="margin-top:8px">
+          <span class="rewardBadge" id="levelTag">Level 1</span>
+          <span class="small" id="xpInfo">XP 0</span>
+        </div>
+      </div>
+    </div>
+    <div class="btnRow" id="featureButtons"></div>
+  </div>
+
+  <div class="card">
+    <div class="hrow">
+      <div><strong>Leaderboard & Missions</strong><div class="smallMuted">Daily missions, streaks & achievements</div></div>
+    </div>
+    <div class="leaderboard" id="leaderboard"></div>
+  </div>
+</div>
+
+<div class="stickyBtns">
+  <button id="dailyBtn" data-feature="dailyReward">🎁 Daily Reward</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="adModal">
+  <div style="margin-bottom:12px">🎬 Watch Ad to earn 0.005 USDT</div>
+  <button id="adCompleteBtn">✅ Ad Completed</button>
+</div>
+
+<script>
+// ------------------------
+// Demo logic with centralized ad-handler
+// ------------------------
+let balance = 0;
+let xp = 0;
+let level = 1;
+const dailyLimit = 100000;
+
+function showToast(msg,type='info'){
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.className = 'toast '+type;
+  t.style.display='block';
+  setTimeout(()=>{t.style.display='none'},2200);
+}
+
+function addReward(amount=0.005, xpAmount=1){
+  balance += amount;
+  xp += xpAmount;
+  document.getElementById('balance').innerText='USDT '+balance.toFixed(3);
+  document.getElementById('xpInfo').innerText='XP '+xp;
+  const xpPercent = Math.min(xp*10,100);
+  document.getElementById('xpFill').style.width=xpPercent+'%';
+  if(xpPercent>=100){level++; xp=0; document.getElementById('levelTag').innerText='Level '+level; showToast('Level Up! 🎉','success');}
+}
+
+// Central Ad Handler
+function showAd(featureId){
+  const adModal = document.getElementById('adModal');
+  adModal.classList.add('show');
+  document.getElementById('adCompleteBtn').onclick = ()=>{
+    adModal.classList.remove('show');
+    addReward();
+    showToast('Ad completed! +0.005 USDT','success');
+  }
+}
+
+// ------------------------
+// Generate 500k feature buttons
+// ------------------------
+const featureContainer = document.getElementById('featureButtons');
+const totalFeatures = 50; // Demo: 50 features, scalable to 500k+
+for(let i=1;i<=totalFeatures;i++){
+  const btn = document.createElement('button');
+  btn.className='btn';
+  btn.innerText='Feature '+i;
+  btn.dataset.feature='feature'+i;
+  btn.onclick = ()=>{ showAd(btn.dataset.feature) };
+  featureContainer.appendChild(btn);
+}
+
+// ------------------------
+// Demo leaderboard
+// ------------------------
+const leaderboard = document.getElementById('leaderboard');
+for(let i=1;i<=10;i++){
+  const lb = document.createElement('div');
+  lb.innerText=i+'. User'+i+' - USDT '+(Math.random()*5).toFixed(3);
+  leaderboard.appendChild(lb);
+}
+
+// Daily reward button
+document.getElementById('dailyBtn').onclick=()=>{ showAd('dailyReward'); }
+</script>
+</body>
+</html>
